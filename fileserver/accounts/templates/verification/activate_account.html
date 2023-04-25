@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} Confirm Password {% endblock %}
+
+{% block content %}
+<div class="h-screen font-sans login bg-cover">
+<div class="container mx-auto h-full flex flex-1 justify-center items-center">
+          <div class="text-x-black">{{message}}</div>
+    <br>
+          <a class="text-blue-600" href="{% url 'sign_in' %}">Login</a>
+      </div>
+    </div>
+{% endblock %}
