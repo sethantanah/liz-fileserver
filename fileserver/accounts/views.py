@@ -90,3 +90,7 @@ def sign_in(request):
 
         else:
             return render(request, 'login.html', {'form': form})
+
+
+def password_reset(request):
+    pass
