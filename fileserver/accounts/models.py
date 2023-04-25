@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
             is_staff=False, is_superuser=False, **extra_fields
         )
 
-        user.set_password(self.cleaned_data["password"])
+        user.set_password(password)
         user.save(using=self._db)
         return user
 

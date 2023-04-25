@@ -1,5 +1,5 @@
 from django.contrib import messages
-from .formss import RegistrationForm
+from .formss import RegistrationForm, UserForms
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.urls import reverse
@@ -64,3 +64,29 @@ def activate(request, uidb64, token):
                       {'message': 'Thank you for your email confirmation. Now you can login your account.'})
     else:
         return render(request, 'verification/activate_account.html', {'message': 'Activation link is invalid!'})
+
+
+def sign_in(request):
+    form = UserForms()
+    if request.method == 'GET':
+        return render(request, 'login.html', {'form': form})
+
+    if request.method == 'POST':
+        form = UserForms(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            user = authenticate(request, email=email, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'You have been logged in!')
+                return render(request, 'login.html', {'form': form})
+            else:
+                auth_error = 'Invalid email or password'
+                messages.error(request, 'Invalid email or password')
+                return render(request, 'login.html', {'form': form, 'auth_error': auth_error})
+
+        else:
+            return render(request, 'login.html', {'form': form})

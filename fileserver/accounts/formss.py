@@ -5,6 +5,12 @@ from .models import User
 from django.contrib.auth.forms import UserCreationForm
 
 
+class UserForms(forms.Form):
+    email = forms.EmailField(max_length=100, required=True, help_text='Email')
+    password = forms.CharField(max_length=100, required=True, help_text='Password',
+                               widget=forms.PasswordInput(render_value=True))
+
+
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password_confirm = forms.CharField(widget=forms.PasswordInput)
@@ -35,6 +41,3 @@ class RegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
-
-
