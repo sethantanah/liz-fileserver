@@ -13,7 +13,7 @@ def upload_to(instance, filename):
 class Files(models.Model):
     title = models.CharField(max_length=255, help_text='title', blank=False)
     description = models.CharField(max_length=255, help_text='description', blank=True)
-    file_url = models.CharField(max_length=255, help_text='url', blank=True)
+    # file_url = models.CharField(max_length=255, help_text='url', blank=True)
     file = models.FileField(help_text='file', blank=True, upload_to='files/')
     file_type = models.CharField(max_length=255, help_text='', blank=True)
     published = models.DateTimeField(auto_now_add=True, blank=True)
@@ -23,6 +23,9 @@ class Files(models.Model):
 
     def get_absolute_url(self):
         return reverse('preview', args=[str(self.id)])
+
+    def get_download_url(self):
+        return reverse('download', args=[str(self.id)])
 
 
 class FileTracker(models.Model):
