@@ -23,7 +23,9 @@
       </div>
 
         <div class="space-y-3 my-5">
-            <button class="button px-5 py-2  w-50 rounded bg-blue-800 text-white">Preview</button>
+            <a href="{{ file.get_absolute_url }}">
+                <button class="button px-5 py-2  w-50 rounded bg-blue-800 text-white">Preview</button>
+            </a>
             <button class="button px-5 py-2  w-50 rounded bg-sky-800 text-white">Download</button>
             <button class="button px-5 py-2  w-50 rounded bg-indigo-800 text-white">Email</button>
         </div>

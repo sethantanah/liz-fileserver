@@ -1,0 +1,28 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="h-screen font-sans login bg-cover">
+<div class="container mx-auto h-full flex flex-1 justify-center items-center">
+    <div class="w-full max-w-lg">
+        {% if file %}
+{% if file.file_type == 'audio' %}
+<audio controls autoplay>
+  <source src="{{file.file.url}}" type="audio/mpeg" >
+  Your browser does not support the audio element.
+</audio>
+
+        {% else %}
+
+        <video autoplay controls>
+  <source src="{{file.file.url}}" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+{% endif %}
+{% endif %}
+    </div>
+</div>
+
+
+
+{% endblock %}
