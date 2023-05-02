@@ -33,3 +33,4 @@ urlpatterns += [
          RedirectView.as_view(url='login'),
          name='password_reset_complete'),
 ]
+

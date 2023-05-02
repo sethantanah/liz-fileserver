@@ -82,7 +82,7 @@ def sign_in(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'You have been logged in!')
-                return render(request, 'login.html', {'form': form})
+                return redirect(reverse('index')) #render(request, 'login.html', {'form': form})
             else:
                 auth_error = 'Invalid email or password'
                 messages.error(request, 'Invalid email or password')

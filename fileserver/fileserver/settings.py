@@ -30,7 +30,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-TAILWIND_APP_NAME = 'accounts'
+TAILWIND_APP_NAME = 'theme'
 
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'tailwind',
     'accounts',
-    'collections'
+    'library',
+    'theme'
 ]
 
 MIDDLEWARE = [
