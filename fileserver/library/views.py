@@ -8,7 +8,8 @@ from .models import FileTracker, Files
 
 @login_required()
 def home_page(request):
-    return render(request, 'index.html')
+    files = Files.objects.all()
+    return render(request, 'index.html', {'files': files})
 
 
 @permission_required('user.can_add_files', raise_exception=True)
