@@ -12,7 +12,17 @@ from library.models import Files
 
 @permission_required('user.can_add_files', raise_exception=True)
 def dashboard(request):
-    files = FileTracker.objects.all()
+    if request.method == 'POST':
+        query = request.POST.get('q')
+        if query:
+            files = FileTracker.objects.filter(Q(file__title__icontains=query) | Q(file__description__icontains=query))
+        else:
+            files = FileTracker.objects.all()
+
+    if request.method == 'GET':
+        query = ''
+        files = FileTracker.objects.all()
+
     paginator = Paginator(files, 3)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -26,16 +36,7 @@ def dashboard(request):
     ]
 
     data = {'categories': categories, 'count': file_count}
-    return render(request, 'dashboard.html', {'page_obj': page_obj, 'data': data, 'files': files})
-
-
-def search_files(request):
-    query = request.GET.get('q')
-    if query:
-        results = Files.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
-    else:
-        results = []
-    return render(request, 'search-results.html', {'query': query, 'results': results})
+    return render(request, 'dashboard.html', {'page_obj': page_obj, 'data': data, 'query':query})
 
 
 @permission_required('user.can_add_files', raise_exception=True)

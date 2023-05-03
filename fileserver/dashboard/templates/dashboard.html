@@ -33,7 +33,7 @@
                     </div>
                     <span class="bg-gray-300 h-6 w-[.5px] mx-3"></span>
                     <div class="flex items-center space-x-2">
-                          {% with data=page_object %}
+                          {% with data=query %}
                             {% include 'searchbar.html' with data=data %}
                         {% endwith %}
                     </div>

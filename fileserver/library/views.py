@@ -15,15 +15,16 @@ from .models import FileTracker, Files
 def home_page(request):
     if request.method == 'GET':
         files = Files.objects.all()
+        query = ''
 
     if request.method == "POST":
         query = request.POST.get('q')
         if query:
             files = Files.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
         else:
-            files = []
+            files = Files.objects.all()
 
-    return render(request, 'index.html', {'files': files})
+    return render(request, 'index.html', {'files': files, 'query': query})
 
 
 def file_preview(request, pk):
