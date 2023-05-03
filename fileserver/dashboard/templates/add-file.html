@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Add File {% endblock %}
+{% block content %}
+<div class="h-screen font-sans login bg-cover">
+<div class="container mx-auto h-full flex flex-1 justify-center items-center">
+    <div class="w-full max-w-lg">
+      <div class="leading-loose">
+        <form class="max-w-sm m-4 p-10 bg-white bg-opacity-25 rounded shadow-xl" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table>
+                {{form.as_table}}
+            </table>
+            <button type="submit" class="bg-primary text-blue-500">Upload</button>
+        </form>
+      </div>
+    </div>
+</div>
+</div>
+<script>
+const fileType = document.getElementById('id_file_type')
+const fileInput = document.getElementById('id_file')
+
+fileInput.addEventListener('change', (e) => {
+    const filetype = e.target.files[0]['type']
+    fileType.value = filetype
+})
+</script>
+{% endblock %}

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'tailwind',
     'accounts',
     'library',
+    'dashboard',
     'theme'
 ]
 

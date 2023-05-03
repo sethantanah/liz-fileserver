@@ -1,0 +1,38 @@
+{%extends 'base.html' %}
+{% block content %}
+
+<style>
+    :root { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  :root { font-family: 'Inter var', sans-serif; }
+}
+</style>
+<div class="h-screen font-sans login bg-cover">
+<div class="container mx-auto h-full flex flex-1 justify-center items-center">
+    <div class="w-full max-w-lg">
+
+<div class="py-10   antialiased font-medium text-gray-800 bg-white " x-data="{ modal: true }">
+    <div class="max-w-sm p-2 mx-auto bg-white border-[1px] border-gray-200 shadow rounded-xl hover:shadow-lg transition-all duration-150 ease-linear" x-show="modal"
+    x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 scale-90"
+        x-transition:enter-end="opacity-100 scale-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100 scale-100"
+        x-transition:leave-end="opacity-0 scale-90"
+    >
+            <div class="relative p-6">
+
+                <h1 class="text-3xl font-bold">{{file.title}}</h1>
+                <p class="text-sm text-gray-500">Are you sure you want to delete this?</p>
+                <div class="flex flex-row mt-6 space-x-2 justify-evenly">
+                    <a href="{{ file.get_confirm_delete_url }}" class="w-full py-3 text-sm font-medium text-center text-white transition duration-150 ease-linear bg-red-600 border border-red-600 rounded-lg hover:bg-red-500">Delete</a href="">
+                    <a href="{% url 'dashboard' %}" x-on:click="modal = ! modal" class="w-full py-3 text-sm text-center text-gray-500 transition duration-150 ease-linear bg-white border border-gray-200 rounded-lg hover:bg-gray-100">Cancel</a>
+                </div>
+            </div>
+    </div>
+</div>
+      </div>
+
+</div>
+</div>
+{% endblock %}

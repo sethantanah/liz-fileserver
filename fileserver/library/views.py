@@ -86,23 +86,3 @@ def send_email_with_attachment(request, pk):
     return HttpResponse('Email sent with attachment')
 
 
-@permission_required('user.can_add_files', raise_exception=True)
-def add_file(request):
-    if request.method == 'GET':
-        form = FileForm()
-        return render(request, 'add-file.html', {'form': form})
-    if request.method == 'POST':
-        form = FileForm(request.POST)
-
-        if form.is_valid():
-
-            file = form.save(commit=False)
-            file.file = request.FILES['file']
-            file_tracker = FileTracker()
-            file_tracker.file = file
-            file.save()
-            file_tracker.save()
-
-            return redirect(reverse('index'))
-        else:
-            return render(request, 'add-file.html', {'form': form})

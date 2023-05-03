@@ -8,6 +8,7 @@ urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('accounts', include('accounts.urls')),
                   path('library', include('library.urls')),
+                  path('dashboard', include('dashboard.urls')),
                   path('', RedirectView.as_view(url='/library'))
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

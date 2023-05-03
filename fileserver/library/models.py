@@ -30,6 +30,15 @@ class Files(models.Model):
     def get_email_url(self):
         return reverse('email', args=[str(self.id)])
 
+    def get_update_url(self):
+        return reverse('update_file', args=[str(self.id)])
+
+    def get_delete_url(self):
+        return reverse('delete_file', args=[str(self.id)])
+
+    def get_confirm_delete_url(self):
+        return reverse('confirm_delete_file', args=[str(self.id)])
+
 
 class FileTracker(models.Model):
     file = models.OneToOneField(Files, on_delete=models.CASCADE)
