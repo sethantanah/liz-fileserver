@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.db.models import Q
 
 from library.formss import FileForm
 from library.models import FileTracker
@@ -25,7 +26,16 @@ def dashboard(request):
     ]
 
     data = {'categories': categories, 'count': file_count}
-    return render(request, 'dashboard.html', {'page_obj': page_obj, 'data': data})
+    return render(request, 'dashboard.html', {'page_obj': page_obj, 'data': data, 'files': files})
+
+
+def search_files(request):
+    query = request.GET.get('q')
+    if query:
+        results = Files.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+    else:
+        results = []
+    return render(request, 'search-results.html', {'query': query, 'results': results})
 
 
 @permission_required('user.can_add_files', raise_exception=True)

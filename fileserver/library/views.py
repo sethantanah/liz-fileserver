@@ -2,6 +2,7 @@ import mimetypes
 import os
 
 from django.core.mail import EmailMessage
+from django.db.models import Q
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
@@ -12,7 +13,16 @@ from .models import FileTracker, Files
 
 @login_required()
 def home_page(request):
-    files = Files.objects.all()
+    if request.method == 'GET':
+        files = Files.objects.all()
+
+    if request.method == "POST":
+        query = request.POST.get('q')
+        if query:
+            files = Files.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
+        else:
+            files = []
+
     return render(request, 'index.html', {'files': files})
 
 
