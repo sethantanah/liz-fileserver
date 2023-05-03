@@ -21,6 +21,9 @@ class Files(models.Model):
     def __str__(self):
         return self.title
 
+    def get_file_type(self):
+        return str(self.file_type.split('/')[-1])
+
     def get_absolute_url(self):
         return reverse('preview', args=[str(self.id)])
 
