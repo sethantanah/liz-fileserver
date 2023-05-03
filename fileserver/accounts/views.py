@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, get_user_model
+from django.contrib.auth import login, authenticate, get_user_model, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -45,7 +45,6 @@ def sign_up(request):
     return render(request, 'signup.html', {'form': form})
 
 
-
 def confirm_email(request):
     return render(request, 'verification/confirm_password.html')
 
@@ -82,7 +81,7 @@ def sign_in(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, 'You have been logged in!')
-                return redirect(reverse('index')) #render(request, 'login.html', {'form': form})
+                return redirect(reverse('index'))  # render(request, 'login.html', {'form': form})
             else:
                 auth_error = 'Invalid email or password'
                 messages.error(request, 'Invalid email or password')
@@ -90,6 +89,11 @@ def sign_in(request):
 
         else:
             return render(request, 'login.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
 
 
 def password_reset(request):
