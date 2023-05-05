@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="bg-white-100 mb-6">
-            <ul>
+            <ul class="" id="files">
 
                {% if page_obj %}
                 {% for file in page_obj%}
@@ -85,7 +85,43 @@
                 {% endif %}
 
             </ul>
+
+                 <ul class="hidden" id="users">
+
+               {% if users %}
+                {% for user in users%}
+                {% with data=user %}
+                 {% include 'users.html' with data=user %}
+                 {% endwith %}
+                {% endfor %}
+                {% else%}
+                {% endif %}
+
+            </ul>
         </div>
     </div>
 </div> <script src="https://unpkg.com/flowbite@1.3.4/dist/flowbite.js"></script>
+<script>
+    const filesCon = document.getElementById('files')
+    const usersCon = document.getElementById('users')
+
+     const filesBtn = document.getElementById('files-f')
+    const usersBtn = document.getElementById('users-f')
+
+    usersBtn.addEventListener('click', ()=>{
+         filesCon.classList.add('hidden')
+         usersCon.classList.remove('hidden')
+
+         usersBtn.classList.add('bg-gray-200')
+         filesBtn.classList.remove('bg-gray-200')
+    })
+
+     filesBtn.addEventListener('click', ()=>{
+         filesCon.classList.remove('hidden')
+         usersCon.classList.add('hidden')
+
+          usersBtn.classList.remove('bg-gray-200')
+         filesBtn.classList.add('bg-gray-200')
+    })
+</script>
 {% endblock %}

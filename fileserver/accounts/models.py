@@ -64,3 +64,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=200, blank=True)
+    last_name = models.CharField(max_length=200, blank=True)
+    phone = models.CharField(max_length=200, blank=True)
+    date_join = models.DateTimeField(auto_now=True)

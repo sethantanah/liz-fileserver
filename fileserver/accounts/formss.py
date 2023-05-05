@@ -2,7 +2,17 @@ from django import forms
 import datetime
 from django.contrib.auth import get_user_model
 from .models import User
-from django.contrib.auth.forms import UserCreationForm
+from .models import Profile
+
+
+class ProfileForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=200)
+    last_name = forms.CharField(max_length=200)
+    phone = forms.CharField(max_length=30)
+
+    class Meta:
+        model = Profile
+        fields = ['first_name', 'last_name', 'phone']
 
 
 class UserForms(forms.Form):

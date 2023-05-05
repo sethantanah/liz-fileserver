@@ -1,10 +1,14 @@
 from django.contrib import messages
-from .formss import RegistrationForm, UserForms
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+
+from .formss import RegistrationForm, UserForms, ProfileForm
+from .models import Profile
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
@@ -12,6 +16,19 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
+
+
+@login_required()
+def profile(request):
+    user_profile = Profile.objects.get(user=request.user)
+    if request.method == 'GET':
+        form = ProfileForm(instance=user_profile)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, message='Profile Updated')
+    return render(request, "profile.html", {'form': form, 'profile': user_profile})
 
 
 def sign_up(request):
@@ -94,7 +111,3 @@ def sign_in(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
-
-
-def password_reset(request):
-    pass

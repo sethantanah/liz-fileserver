@@ -9,6 +9,8 @@ from library.models import FileTracker
 
 from library.models import Files
 
+from accounts.models import User
+
 
 @permission_required('user.can_add_files', raise_exception=True)
 def dashboard(request):
@@ -28,6 +30,8 @@ def dashboard(request):
     page_obj = paginator.get_page(page_number)
 
     file_count = FileTracker.objects.count()
+    users_count = User.objects.count()
+    users = User.objects.all()
     categories = [
         'Pdf',
         'Audio',
@@ -35,8 +39,8 @@ def dashboard(request):
         'Images'
     ]
 
-    data = {'categories': categories, 'count': file_count}
-    return render(request, 'dashboard.html', {'page_obj': page_obj, 'data': data, 'query':query})
+    data = {'categories': categories, 'count': file_count, 'users_count':users_count}
+    return render(request, 'dashboard.html', {'page_obj': page_obj, 'users': users, 'data': data, 'query':query})
 
 
 @permission_required('user.can_add_files', raise_exception=True)
