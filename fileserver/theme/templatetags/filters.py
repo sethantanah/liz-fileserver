@@ -5,7 +5,7 @@ register = template.Library()
 
 @register.filter(name='extensions')
 def audio_extension(extension):
-    audio_extensions = ['mp3', 'wav', 'aac', 'flac', 'wma', 'ogg', 'alac', 'aiff', 'dsd', 'dsf', 'dff']
+    audio_extensions = ['mp3', 'wav', 'aac', 'mpeg', 'flac', 'wma', 'ogg', 'alac', 'aiff', 'dsd', 'dsf', 'dff']
     video_extensions = ['avi', 'mp4', 'wmv', 'mov', 'flv', 'mkv', 'webm']
     image_extensions = ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'webp', 'tiff']
 

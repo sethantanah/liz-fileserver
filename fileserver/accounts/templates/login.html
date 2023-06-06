@@ -2,82 +2,187 @@
 
 {% block title %} Login {% endblock %}
 {% block content %}
-<div class="h-screen font-sans login bg-cover">
-<div class="container mx-auto h-full flex flex-1 justify-center items-center">
-    <div class="w-full max-w-lg">
-      <div class="leading-loose">
-        <form class="max-w-sm m-4 p-10 bg-white bg-opacity-25 rounded shadow-xl" method="POST">
-			{% csrf_token %}
-            <p class="text-white font-medium text-center text-lg font-bold">LOGIN</p>
-			{% if auth_error %}
-			<p class="text-rose-600 text-center text-medium">
-				{{auth_error}}
-			</p>
-			{% endif %}
-              <div class="">
-                <label for="{{form.email.id_for_label}}" class="block text-sm text-white">E-mail</label>
-                <input type="{{form.email.widget.input_type}}"
-					   name="{{form.email.name}}"
-					   id="{{form.email.id_for_label}}"
-					   placeholder="{{form.email.label}}"
-					   value="{{form.email.value|default:''}}"
-					   {% if form.email.required %} required {% endif %}
-					   class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"  aria-label="email" required>
-				  {% if form.email.errors %}
-				  {% for error in form.email.errors %}
-				  <div class="invalid-feedback text-danger">
-					  {{ error }}
-				  </div>
-				  {% endfor %}
-				  {%endif %}
-              </div>
-              <div class="mt-2">
-                <label for="{{form.password.id_for_label}}" class="block  text-sm text-white">Password</label>
-                 <input type="Password"
-						name="{{form.password.name}}"
-						id="{{form.password.id_for_label}}"
-						placeholder="{{form.password.label}}"
-						value="{{form.password.value|default:''}}"
-						{% if form.password.required %} required {% endif %}
-						 class="w-full px-5 py-1 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
-                   arial-label="password" required>
-				  {% if form.password.errors %}
-				  {% for error in form.password.errors %}
-				  <div class="invalid-feedback text-danger">
-					  {{ error }}
-				  </div>
-				  {% endfor %}
-				  {%endif %}
-              </div>
-
-
-
-              <div class="mt-4 items-center flex justify-between">
-                <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 hover:bg-gray-800 rounded"
-                  type="submit">Login</button>
-                <a class="inline-block right-0 align-baseline font-bold text-sm text-500 text-white hover:text-red-400"
-                  href="{% url 'password_reset' %}">Forgot Password ?</a>
-              </div>
-              <div class="text-center">
-                <a href="{% url 'sign_up' %}" class="inline-block right-0 align-baseline font-light text-sm text-500 hover:text-red-400">
-                    No account yet? Sign up
-                </a>
-              </div>
-
-        </form>
-
-      </div>
-    </div>
-  </div>
+<div style="position:absolute">
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="800px" height="600px" viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+  <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="174.7899" y1="186.34" x2="330.1259" y2="186.34" gradientTransform="matrix(0.8538 0.5206 -0.5206 0.8538 147.9521 -79.1468)">
+    <stop offset="0" style="stop-color:#FFC035" />
+    <stop offset="0.221" style="stop-color:#F9A639" />
+    <stop offset="1" style="stop-color:#E64F48" />
+  </linearGradient>
+  <circle fill="url(#SVGID_1_)" cx="266.498" cy="211.378" r="77.668" />
+  <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="290.551" y1="282.9592" x2="485.449" y2="282.9592">
+    <stop offset="0" style="stop-color:#FFA33A" />
+    <stop offset="0.0992" style="stop-color:#E4A544" />
+    <stop offset="0.9624" style="stop-color:#00B59C" />
+  </linearGradient>
+  <circle fill="url(#SVGID_2_)" cx="388" cy="282.959" r="97.449" />
+  <linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="180.3469" y1="362.2723" x2="249.7487" y2="362.2723">
+    <stop offset="0" style="stop-color:#12B3D6" />
+    <stop offset="1" style="stop-color:#7853A8" />
+  </linearGradient>
+  <circle fill="url(#SVGID_3_)" cx="215.048" cy="362.272" r="34.701" />
+  <linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="367.3469" y1="375.3673" x2="596.9388" y2="375.3673">
+    <stop offset="0" style="stop-color:#12B3D6" />
+    <stop offset="1" style="stop-color:#7853A8" />
+  </linearGradient>
+  <circle fill="url(#SVGID_4_)" cx="482.143" cy="375.367" r="114.796" />
+  <linearGradient id="SVGID_5_" gradientUnits="userSpaceOnUse" x1="365.4405" y1="172.8044" x2="492.4478" y2="172.8044" gradientTransform="matrix(0.8954 0.4453 -0.4453 0.8954 127.9825 -160.7537)">
+    <stop offset="0" style="stop-color:#FFA33A" />
+    <stop offset="1" style="stop-color:#DF3D8E" />
+  </linearGradient>
+  <circle fill="url(#SVGID_5_)" cx="435.095" cy="184.986" r="63.504" />
+</svg>
 </div>
+
+<div class="container max-w-full h-screen mx-auto  px-6 bg-gray-300">
+    <div class="font-sans">
+        <div class="max-w-sm mx-auto px-6">
+            <div class="relative flex flex-wrap h-screen">
+                <div class="w-full relative" style="margin-top:auto; margin-bottom:auto">
+                    <div class="mt-6">
+                        <div class="mb-5 pb-1border-b-2 text-center font-base text-gray-700">
+                           Lizz FileServer
+                        </div>
+                        <div class="text-center font-semibold text-black">
+                            Welcome back, more awaits you.
+                        </div>
+
+                        <form class="mt-8" method="POST">
+                            <div class="mx-auto max-w-lg">
+                                <div class="py-2">
+
+                                    {% csrf_token %}
+
+                                    {% if auth_error %}
+                                    <p class="text-rose-600 text-center text-medium">
+                                        {{auth_error}}
+                                    </p>
+                                    {% endif %}
+
+                                    <span class="px-1 text-sm text-gray-800">Email</span>
+                                    <input type="{{form.email.widget.input_type}}"
+                                           name="{{form.email.name}}"
+                                           id="{{form.email.id_for_label}}"
+                                           placeholder="{{form.email.label}}"
+                                           value="{{form.email.value|default:''}}"
+                                           {% if form.email.required %} required {% endif %}
+                                           class="text-md block px-3 py-2  rounded-lg w-full
+                bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md focus:placeholder-gray-500 focus:bg-white focus:border-gray-600 focus:outline-none">
+
+
+                                    {% if form.email.errors %}
+                                    {% for error in form.email.errors %}
+                                    <div class="invalid-feedback text-danger">
+                                        {{ error }}
+                                    </div>
+                                    {% endfor %}
+                                    {%endif %}
+                                </div>
+                                <div class="py-2" x-data="{ show: true }">
+                                    <span class="px-1 text-sm text-gray-800">Password</span>
+                                    <div class="relative">
+                                        <input type="Password"
+                                               name="{{form.password.name}}"
+                                               id="{{form.password.id_for_label}}"
+                                               placeholder="{{form.password.label}}"
+                                               value="{{form.password.value|default:''}}"
+                                               {% if form.password.required %} required {% endif %} class="text-md block px-3 py-2 rounded-lg w-full
+                bg-white border-2 border-gray-300 placeholder-gray-600 shadow-md
+                focus:placeholder-gray-500
+                focus:bg-white
+                focus:border-gray-600
+                focus:outline-none">
+                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                                        </div>
+                                        {% if form.password.errors %}
+                                        {% for error in form.password.errors %}
+                                        <div class="invalid-feedback text-danger">
+                                            {{ error }}
+                                        </div>
+                                        {% endfor %}
+                                        {%endif %}
+                                    </div>
+                                </div>
+
+
+                                <div class="flex justify-end">
+                                    <label class="block text-gray-500 font-regular my-4">
+                                    <a href="{% url 'password_reset' %}" class="cursor-pointer tracking-tighter text-black border-b-1
+                                     border-gray-200 hover:border-gray-400"><span>Forgot Password?</span></a></label>
+                                </div>
+
+
+                                <button class="open-btn mt-3 text-lg font-semibold bg-gray-800 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
+                                    Login
+                                </button>
+
+
+                                <div class="text-center">
+                                    <a href="{% url 'sign_up' %}"
+                                       class="inline-block right-0 align-baseline font-light text-md my-5 text-500 hover:text-violet-800">
+                                        No account yet? Sign up
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'modal.html'%}
+
+
+
+<!-- component -->
 <style>
-  .login{
-  /*
-    background: url('https://tailwindadmin.netlify.app/dist/images/login-new.jpeg');
-  */
-  background: url('http://bit.ly/2gPLxZ4');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-</style>
+		.animated {
+			-webkit-animation-duration: 1s;
+			animation-duration: 1s;
+			-webkit-animation-fill-mode: both;
+			animation-fill-mode: both;
+		}
+
+		.animated.faster {
+			-webkit-animation-duration: 500ms;
+			animation-duration: 500ms;
+		}
+
+		.fadeIn {
+			-webkit-animation-name: fadeIn;
+			animation-name: fadeIn;
+		}
+
+		.fadeOut {
+			-webkit-animation-name: fadeOut;
+			animation-name: fadeOut;
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadeOut {
+			from {
+				opacity: 1;
+			}
+
+			to {
+				opacity: 0;
+			}
+		}
+	</style>
+
+
+
+
 {% endblock %}

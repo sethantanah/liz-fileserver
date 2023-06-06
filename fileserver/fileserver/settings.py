@@ -25,10 +25,20 @@ SECRET_KEY = 'django-insecure-h2i!w@)vrj8(b03bri$y-3oeh$%)l&avureoia22#%@)c8288p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "17f6-154-160-21-175.ngrok-free.app"]
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+
+    "17f6-154-160-21-175.ngrok-free.app",
+]
+
+
+CORS_ALLOWED_ORIGINS = [
+    'https://17f6-154-160-21-175.ngrok-free.app'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://17f6-154-160-21-175.ngrok-free.app'
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -44,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'tailwind',
     'accounts',
     'library',
@@ -125,8 +136,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT=os.path.join(BASE_DIR,"songdir")
-MEDIA_URL='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "songdir")
+MEDIA_URL = '/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -138,10 +149,17 @@ AUTH_USER_MODEL = 'accounts.User'
 LOGIN_REDIRECT_URL = '/'
 
 # Email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = '*****'
+# EMAIL_HOST_PASSWORD = '*****'
+
+SENDGRID_API_KEY = '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'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'  # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '*****'
-EMAIL_HOST_PASSWORD = '*****'

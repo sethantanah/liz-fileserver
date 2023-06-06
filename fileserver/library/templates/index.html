@@ -1,50 +1,163 @@
 {% extends 'base.html' %}
 
-{% block title %} Index {% endblock %}
+{% block title %} File Library {% endblock %}
 {% block content %}
+{% load filters %}
 
-<div class="container px-10">
-    {% include 'navigation.html' %}
-     {% if files %}
-    <div class="grid grid-flow-row gap-2 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3
+<div class="container" style="min-width:100%; display:flex; flex-direction:column; justify-content:center">
+    <div style="margin-left:auto; margin-right:auto">
+
+
+        {% include 'navigation.html' %}
+        {% if files %}
+
+        {% if shared %}
+        <div class="container  alert-box mt-5" id="alert-box" style="display:none">
+            <div class="flex bg-blue-100 rounded-lg p-4 mb-4 text-sm text-blue-700" role="alert">
+                <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                    <span class="font-medium">Email Sent!</span> The file has been successfully sent to your email.
+                </div>
+            </div>
+        </div>
+
+        {%endif%}
+
+
+        {% if downloaded %}
+        <div class="container  alert-box2 mt-5" id="alert-box2" style="display:none">
+            <div class="flex bg-blue-100 rounded-lg p-4 mb-4 text-sm text-blue-700" role="alert">
+                <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                          clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                    <span class="font-medium">Downloaded!</span> The file has been successfully downloaded.
+                </div>
+            </div>
+        </div>
+
+        {%endif%}
+
+
+        <div class="grid grid-flow-row gap-2 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3
       items-center my-4">
 
-        {% for file in files %}
+            {% for file in files %}
 
 
-<div class="flex items-center">
-  <div class="group relative mx-auto w-96 h-50 overflow-hidden rounded-[0px]  p-[1px] transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
-    <div class="group-hover:animate-spin-slow invisible absolute -top-40 -bottom-40 left-10 right-10 bg-gradient-to-r from-transparent via-white/90 to-transparent group-hover:visible"></div>
-    <div class="relative rounded-[0px] bg-white p-6">
-      <div class="space-y-4">
-        <img src="https://nuxt.com/assets/home/ux-fast-light.svg" alt="" />
-        <p class="text-lg font-semibold text-slate-800">{{file.title}}</p>
-        <p class="font-md text-slate-500">{{file.description}}</p>
-      </div>
+            <div  class="flex items-center">
 
-        <div class="space-y-3 my-5">
-            <a href="{{ file.get_absolute_url }}">
-                <button class="button px-5 py-2  w-50 rounded bg-blue-800 text-white">Preview</button>
-            </a>
+                <div class="group relative mx-auto w-96 h-50 overflow-hidden rounded-[0px]  p-[1px] transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
+                    <div class="group-hover:animate-spin-slow invisible absolute -top-40 -bottom-40 left-10 right-10 bg-gradient-to-r from-transparent via-white/90 to-transparent group-hover:visible"></div>
+                    <div class="relative rounded-[0px] bg-white p-6">
+                        <a href="{{ file.get_absolute_url }}" class="space-y-4">
+                            <div class="flex">
+                                <p class="text-lg font-semibold text-slate-800">{{file.title}}</p>
+                            </div>
+                            <p class="font-md text-slate-500">{{file.description|linebreaks}}</p>
+                        </a>
 
-            <a href="{{ file.get_download_url }}">
-                <button class="button px-5 py-2  w-50 rounded bg-blue-800 text-white">Download</button>
-            </a>
+                        <div style="display:flex; justify-content:end; gap:30px; margin-top:100px">
+ <span style="margin:auto; margin-left:0; margin-right:auto; font-size:12px">
+     {%if file.get_file_type|extensions == 'image' %}
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image"
+          viewBox="0 0 16 16">
+  <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+  <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+</svg>
 
-            <a href="{{ file.get_email_url }}">
-                <button class="button px-5 py-2  w-50 rounded bg-blue-800 text-white">Email</button>
-            </a>
+     {% elif file.get_file_type|extensions == 'video'%}
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-film"
+          viewBox="0 0 16 16">
+  <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+</svg>
+     {% elif file.get_file_type|extensions == 'audio'%}
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-music-note-list"
+          viewBox="0 0 16 16">
+  <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+  <path fill-rule="evenodd" d="M12 3v10h-1V3h1z"/>
+  <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z"/>
+  <path fill-rule="evenodd"
+        d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+</svg>
+     {% else %}
+     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf"
+          viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+        d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
+</svg>
+     {% endif %}
+ </span>
+                            <a href="{{ file.get_absolute_url }}" title="preview"
+                               class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width:35px; height:35px"
+                                     fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                </svg>
+                            </a>
+
+
+                            <a href="{{ file.get_download_url }}" title="Download"
+                               class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+
+
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width:30px; height:30px"
+                                     fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                </svg>
+
+                            </a>
+
+                            <a title="Send by Mail" href="{{ file.get_email_url }}"
+                               class=" open-btn sendmail w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" style="width:30px; height:30px"
+                                     fill="currentColor" class="bi bi-envelope-paper" viewBox="0 0 16 16">
+                                    <path d="M4 0a2 2 0 0 0-2 2v1.133l-.941.502A2 2 0 0 0 0 5.4V14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5.4a2 2 0 0 0-1.059-1.765L14 3.133V2a2 2 0 0 0-2-2H4Zm10 4.267.47.25A1 1 0 0 1 15 5.4v.817l-1 .6v-2.55Zm-1 3.15-3.75 2.25L8 8.917l-1.25.75L3 7.417V2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v5.417Zm-11-.6-1-.6V5.4a1 1 0 0 1 .53-.882L2 4.267v2.55Zm13 .566v5.734l-4.778-2.867L15 7.383Zm-.035 6.88A1 1 0 0 1 14 15H2a1 1 0 0 1-.965-.738L8 10.083l6.965 4.18ZM1 13.116V7.383l4.778 2.867L1 13.117Z"/>
+                                </svg>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+
         </div>
+
+        {%else%}
+        <div class="grid grid-flow-row gap-2 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3
+      items-center my-4">
+
+            <div class="flex items-center">
+                <div class="group relative mx-auto w-96 h-50 overflow-hidden rounded-[0px]  p-[1px] transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500">
+                    <div class="group-hover:animate-spin-slow invisible absolute -top-40 -bottom-40 left-10 right-10 bg-gradient-to-r from-transparent via-white/90 to-transparent group-hover:visible"></div>
+                    <div class="relative rounded-[0px] bg-white p-6">
+                        <h1>No files match searched query</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
-  </div>
-</div>
-        {% endfor %}
-
-
-    </div>
-   {% endif %}
 </div>
 
+{% include 'modal.html'%}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
+        integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 
 <script>
     tailwind.config = {
@@ -57,5 +170,20 @@
     },
     plugins: [],
 }
+
+
+ pid = $(".alert-box").show(500)
+    const timeoutId = setTimeout(()=>{
+    pid = $(".alert-box").hide(500)
+    }, 2000);
+
+
+
+
+
+
+
+
+
 </script>
 {% endblock %}
