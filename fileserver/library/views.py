@@ -12,6 +12,7 @@ from .models import FileTracker, Files
 
 
 def home_page(request, *args, **kwargs):
+    empty_query = False
     shared = request.session.get('shared', False)
     download = request.session.get('download', False)
     if request.method == 'GET':
@@ -24,6 +25,8 @@ def home_page(request, *args, **kwargs):
             files = Files.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
         else:
             files = Files.objects.all()
+            if len(files) == 0:
+                empty_query = True
 
     if shared:
         request.session['shared'] = False
@@ -31,7 +34,7 @@ def home_page(request, *args, **kwargs):
     if download:
         request.session['download'] = False
 
-    return render(request, 'index.html', {'files': files, 'query': query, 'shared': shared, 'download': download})
+    return render(request, 'index.html', {'files': files, 'query': query, 'shared': shared, 'download': download, 'empty_query': empty_query})
 
 
 @login_required()

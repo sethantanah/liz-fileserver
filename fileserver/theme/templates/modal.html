@@ -1,5 +1,5 @@
 
-	<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
+	<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster hidden"
 		style="background: rgba(0,0,0,.5);">
 		<div
 			class="  transparent w-11/12 md:max-w-md mx-auto rounded  z-50 overflow-y-auto">
@@ -47,6 +47,7 @@
 		}
 
         openBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
 			modal.classList.remove('fadeOut');
 			modal.classList.add('fadeIn');
 			modal.style.display = 'flex';

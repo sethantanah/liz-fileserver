@@ -138,7 +138,9 @@
         </div>
 
         {%else%}
-        <div class="grid grid-flow-row gap-2 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3
+        {% if empty_query %}
+
+             <div class="grid grid-flow-row gap-2 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3
       items-center my-4">
 
             <div class="flex items-center">
@@ -150,6 +152,8 @@
                 </div>
             </div>
         </div>
+
+{% endif %}
         {% endif %}
     </div>
 </div>
