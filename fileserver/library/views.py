@@ -34,7 +34,8 @@ def home_page(request, *args, **kwargs):
     if download:
         request.session['download'] = False
 
-    return render(request, 'index.html', {'files': files, 'query': query, 'shared': shared, 'download': download, 'empty_query': empty_query})
+    return render(request, 'index.html',
+                  {'files': files, 'query': query, 'shared': shared, 'download': download, 'empty_query': empty_query})
 
 
 @login_required()
@@ -42,7 +43,6 @@ def file_preview(request, pk):
     file = get_object_or_404(Files, pk=pk)
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
-
 
     if file_type == 'pdf':
         response = HttpResponse(file.file, content_type=content_type)
@@ -114,5 +114,3 @@ def error_404_view(request, exception):
     # we add the path to the 404.html file
     # here. The name of our HTML file is 404.html
     return render(request, '404.html')
-
-
