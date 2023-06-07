@@ -26,21 +26,23 @@ load_dotenv(BASE_DIR / "../.env")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ["127.0.0.1", "17f6-154-160-21-175.ngrok-free.app"]
+ALLOWED_HOSTS = ["127.0.0.1", "17f6-154-160-21-175.ngrok-free.app", 'liz-fileserver-production.up.railway.app']
 
 INTERNAL_IPS = [
-
+    'liz-fileserver-production.up.railway.app'
     "17f6-154-160-21-175.ngrok-free.app",
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'https://17f6-154-160-21-175.ngrok-free.app'
+    'https://17f6-154-160-21-175.ngrok-free.app',
+    'https://liz-fileserver-production.up.railway.app'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://17f6-154-160-21-175.ngrok-free.app'
+    'https://17f6-154-160-21-175.ngrok-free.app',
+    'https://liz-fileserver-production.up.railway.app'
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -144,7 +146,6 @@ MEDIA_URL = '/media/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
