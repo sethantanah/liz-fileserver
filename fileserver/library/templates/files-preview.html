@@ -64,16 +64,16 @@
                             {% if file %}
                             {% if type == 'mp4' %}
                             <video autoplay controls width="500px" height="400" class="rounded">
-                                <source src="{{file.file.url}}" type="video/mp4">
+                                <source src="{{file.file_url}}" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                             {% elif file.get_file_type|extensions == 'image' %}
 
-                            <img src="{{file.file.url}}" class="rounded">
+                            <img src="{{file.file_url}}" class="rounded">
 
                             {% else %}
                             <audio controls autoplay class="rounded">
-                                <source src="{{file.file.url}}" type="audio/mpeg">
+                                <source src="{{file.file_url}}" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
 

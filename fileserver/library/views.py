@@ -1,4 +1,3 @@
-import mimetypes
 import os
 
 from django.core.mail import EmailMessage

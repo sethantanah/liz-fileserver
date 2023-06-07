@@ -1,6 +1,8 @@
 from django.db import models
 from django.shortcuts import reverse
 import os
+from django.conf import settings
+
 
 
 def upload_to(instance, filename):
@@ -15,7 +17,7 @@ class Files(models.Model):
     description = models.CharField(max_length=255, help_text='description', blank=True)
     file_url = models.CharField(max_length=255, help_text='url', blank=True)
     file = models.FileField(help_text='file', blank=True, upload_to='files/')
-    file_type = models.CharField(max_length=255, help_text='', blank=True)
+    file_type = models.CharField(max_length=2550000000, help_text='', blank=True)
     published = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
