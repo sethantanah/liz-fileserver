@@ -50,8 +50,6 @@ def file_preview(request, pk):
         return response
 
     else:
-        response = HttpResponse(file.file, content_type=content_type)
-        response['Content-Disposition'] = f'inline; filename="{file.title}"'
         return render(request, 'files-preview.html', {'file': file, 'type': file_type})
 
 
@@ -84,7 +82,6 @@ def download_file(request, pk):
 @login_required()
 def send_email_with_attachment(request, pk):
     file = get_object_or_404(Files, pk=pk)
-    file_path = file.file.path
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
     filename = f'{file.title}.{file_type}'
