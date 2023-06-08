@@ -11,8 +11,10 @@ from library.models import FileTracker
 from library.models import Files
 from accounts.models import User
 
-import pyrebase
-from django.core.files.storage import default_storage
+
+
+
+
 
 config = {
     'apiKey': "AIzaSyBS2xUVtdq9RvsyhQrzSSuyaQVPbIYA95Y",
@@ -25,19 +27,22 @@ config = {
     "databaseURL": ""
 }
 
-firebase = pyrebase.initialize_app(config)
-auth = firebase.auth()
-storage = firebase.storage()
+# firebase = pyrebase.initialize_app(config)
+# auth = firebase.auth()
+# storage = firebase.storage()
 
 
 def save_image(file):
-    if auth.current_user is not None:
-        storage.child("files/" + file.name).put(file)
-        return storage.child("files/" + file.name).get_url(auth.current_user['idToken'])
-    else:
-        user = auth.sign_in_with_email_and_password('sethsyd32@gmail.com', os.environ.get('EMAIL_PASSWORD'))
-        storage.child("files/" + file.name).put(file)
-        return storage.child("files/" + file.name).get_url(user['idToken'])
+
+
+    return ''
+    # if auth.current_user is not None:
+    #     storage.child("files/" + file.name).put(file)
+    #     return storage.child("files/" + file.name).get_url(auth.current_user['idToken'])
+    # else:
+    #     user = auth.sign_in_with_email_and_password('sethsyd32@gmail.com', os.environ.get('EMAIL_PASSWORD'))
+    #     storage.child("files/" + file.name).put(file)
+    #     return storage.child("files/" + file.name).get_url(user['idToken'])
 
 
 
