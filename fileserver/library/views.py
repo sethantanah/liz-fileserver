@@ -1,5 +1,6 @@
 import os
 
+import requests
 from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.http import FileResponse, HttpResponse
@@ -43,8 +44,6 @@ def file_preview(request, pk):
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
 
-    print(file.file_type)
-
     if file_type == 'pdf':
         response = HttpResponse(file.file, content_type=content_type)
         response['Content-Disposition'] = f'inline; filename="{file.title}"'
@@ -72,7 +71,9 @@ def download_file(request, pk):
     finally:
         pass
 
-    response = HttpResponse(open(file_path, 'rb').read(), content_type=content_type)
+    response = requests.get(file.file_url)
+    content = response.content
+    response = HttpResponse(content, content_type=content_type)
     response['Content-Disposition'] = f'attachment; filename={filename}'
     file_size = os.path.getsize(file_path)
     response['Content-Length'] = file_size
@@ -95,9 +96,10 @@ def send_email_with_attachment(request, pk):
         to=[my_mail],
     )
     # Open the file you want to attach
-    with open(file_path, 'rb') as f:
-        # Add the file as an attachment to the email
-        email.attach(filename, f.read(), content_type)
+    response = requests.get(file.file_url)
+    content = response.content
+    # Add the file as an attachment to the email
+    email.attach(filename, content, content_type)
     # Send the email
     email.send()
     try:

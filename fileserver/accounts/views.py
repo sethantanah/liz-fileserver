@@ -20,7 +20,7 @@ from django.core.mail import EmailMessage
 
 @login_required()
 def profile(request):
-    user_profile = Profile.objects.get(user=request.user)
+    user_profile = get_object_or_404(Profile, pk=request.user.pk)
     if request.method == 'GET':
         form = ProfileForm(instance=user_profile)
     if request.method == 'POST':

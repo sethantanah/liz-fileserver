@@ -54,12 +54,11 @@ def upload_file(request):
         form = FileForm(request.POST)
 
         if form.is_valid():
-            file = form.save(commit=False)
-            file.file = request.FILES['file']
-            file.file_url = uploadfile(request.FILES['file'])
+            file_obj = form.save(commit=False)
+            file_obj.file_url = uploadfile(request.FILES['file'])
             file_tracker = FileTracker()
-            file_tracker.file = file
-            file.save()
+            file_tracker.file = file_obj
+            file_obj.save(commit=True)
             file_tracker.save()
             return redirect(reverse('dashboard'))
             return render(request, 'add-file.html', {'form': form})
