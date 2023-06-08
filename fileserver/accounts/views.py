@@ -20,7 +20,7 @@ from django.core.mail import EmailMessage
 
 @login_required()
 def profile(request):
-    user_profile = get_object_or_404(Profile, pk=request.user.pk)
+    user_profile, created = Profile.objects.get_or_create(user=request.user)
     if request.method == 'GET':
         form = ProfileForm(instance=user_profile)
     if request.method == 'POST':
@@ -29,7 +29,6 @@ def profile(request):
             form.save()
             messages.success(request, message='Profile Updated')
     return render(request, "profile.html", {'form': form, 'profile': user_profile})
-
 
 
 def sign_up(request):
@@ -65,9 +64,6 @@ def sign_up(request):
 
 def confirm_email(request):
     return render(request, 'verification/confirm_password.html')
-
-
-
 
 
 def activate(request, uidb64, token):

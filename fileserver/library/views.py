@@ -56,7 +56,6 @@ def file_preview(request, pk):
 @login_required()
 def download_file(request, pk):
     file = get_object_or_404(Files, pk=pk)
-    file_path = file.file.path
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
     filename = f'{file.title}.{file_type}'
