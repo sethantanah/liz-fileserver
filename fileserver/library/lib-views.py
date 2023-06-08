@@ -1,6 +1,5 @@
 import os
 
-import requests
 from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.http import FileResponse, HttpResponse
@@ -50,6 +49,8 @@ def file_preview(request, pk):
         return response
 
     else:
+        response = HttpResponse(file.file, content_type=content_type)
+        response['Content-Disposition'] = f'inline; filename="{file.title}"'
         return render(request, 'files-preview.html', {'file': file, 'type': file_type})
 
 
@@ -69,13 +70,9 @@ def download_file(request, pk):
     finally:
         pass
 
-    response = requests.get(file.file_url)
-    content = response.content
-    headers = response.headers
-
-    file_size = headers.get('Content-Length', 0)
-    response = HttpResponse(content, content_type=content_type)
+    response = HttpResponse(open(file_path, 'rb').read(), content_type=content_type)
     response['Content-Disposition'] = f'attachment; filename={filename}'
+    file_size = os.path.getsize(file_path)
     response['Content-Length'] = file_size
     request.session['downloaded'] = True
     return response
@@ -84,6 +81,7 @@ def download_file(request, pk):
 @login_required()
 def send_email_with_attachment(request, pk):
     file = get_object_or_404(Files, pk=pk)
+    file_path = file.file.path
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
     filename = f'{file.title}.{file_type}'
@@ -95,10 +93,9 @@ def send_email_with_attachment(request, pk):
         to=[my_mail],
     )
     # Open the file you want to attach
-    response = requests.get(file.file_url)
-    content = response.content
-    # Add the file as an attachment to the email
-    email.attach(filename, content, content_type)
+    with open(file_path, 'rb') as f:
+        # Add the file as an attachment to the email
+        email.attach(filename, f.read(), content_type)
     # Send the email
     email.send()
     try:
@@ -116,4 +113,6 @@ def error_404_view(request, exception):
     # we add the path to the 404.html file
     # here. The name of our HTML file is 404.html
     return render(request, '404.html')
+
+
 

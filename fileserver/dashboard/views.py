@@ -58,7 +58,7 @@ def upload_file(request):
             file_obj.file_url = uploadfile(request.FILES['file'])
             file_tracker = FileTracker()
             file_tracker.file = file_obj
-            file_obj.save(commit=True)
+            file_obj.save()
             file_tracker.save()
             return redirect(reverse('dashboard'))
             return render(request, 'add-file.html', {'form': form})
