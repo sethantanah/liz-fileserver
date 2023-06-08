@@ -16,8 +16,6 @@ def uploadfile(file):
     blob = bucket.blob(fileName)
     blob.upload_from_filename(fileName)
     blob.make_public()
-    print("your file url", blob.public_url)
-
     return blob.public_url
 
 
