@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.decorators import permission_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
@@ -33,7 +35,7 @@ def save_image(file):
         storage.child("files/" + file.name).put(file)
         return storage.child("files/" + file.name).get_url(auth.current_user['idToken'])
     else:
-        user = auth.sign_in_with_email_and_password('sethsyd32@gmail.com', 'antanah32')
+        user = auth.sign_in_with_email_and_password('sethsyd32@gmail.com', os.environ.get('EMAIL_PASSWORD'))
         storage.child("files/" + file.name).put(file)
         return storage.child("files/" + file.name).get_url(user['idToken'])
 
