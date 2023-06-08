@@ -28,19 +28,22 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = ["127.0.0.1", "17f6-154-160-21-175.ngrok-free.app", 'liz-fileserver-production.up.railway.app']
+ALLOWED_HOSTS = ["127.0.0.1", "17f6-154-160-21-175.ngrok-free.app", 'liz-fileserver-production.up.railway.app', 'lizz.onrender.com']
 
 INTERNAL_IPS = [
+    'lizz.onrender.com',
     'liz-fileserver-production.up.railway.app'
     "17f6-154-160-21-175.ngrok-free.app",
 ]
 
 CORS_ALLOWED_ORIGINS = [
+    'https://lizz.onrender.com',
     'https://17f6-154-160-21-175.ngrok-free.app',
     'https://liz-fileserver-production.up.railway.app'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
+    'https://lizz.onrender.com',
     'https://17f6-154-160-21-175.ngrok-free.app',
     'https://liz-fileserver-production.up.railway.app'
 ]
