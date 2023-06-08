@@ -15,7 +15,7 @@ dj-database-url==2.0.0
 Django
 django-browser-reload==1.8.0
 django-cors-headers==4.0.0
-django-tailwind==3.5.0
+django-tailwind
 dnspython==2.3.0
 firebase-admin==6.1.0
 gcloud==0.17.0
