@@ -43,6 +43,8 @@ def file_preview(request, pk):
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
 
+    print(file.file_type)
+
     if file_type == 'pdf':
         response = HttpResponse(file.file, content_type=content_type)
         response['Content-Disposition'] = f'inline; filename="{file.title}"'
