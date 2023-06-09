@@ -116,9 +116,16 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {
+            'max_similarity': 0.7,
+            'user_attributes': ("first_name", "last_name", "email")
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -126,6 +133,19 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    # custom coded validators
+    {
+        'NAME': 'accounts.validators.UppercaseValidator',
+    },
+    # {
+    #     'NAME': 'accounts.validators.SpecialCharValidator',
+    # },
+    # {
+    #     'NAME': 'accounts.validators.MinimumLengthValidator',
+    #     'OPTIONS': {
+    #         'min_length': 8,
+    #     }
+    # },
 ]
 
 # Internationalization
@@ -156,6 +176,8 @@ UPLOADED_FILES_USE_URL = True
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 
 AUTH_USER_MODEL = 'accounts.User'
 

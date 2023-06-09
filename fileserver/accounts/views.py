@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.db.models import Q
 
 from .formss import RegistrationForm, UserForms, ProfileForm
@@ -37,24 +39,31 @@ def sign_up(request):
         if form.is_valid():
             # save form in the memory not in database
             user = form.save(commit=False)
-            user.is_active = True
+
+            user.is_active = False
             user.save()
-            # # to get the domain of the current site
-            # current_site = get_current_site(request)
-            # mail_subject = 'Activation link has been sent to your email id'
-            # message = render_to_string('verification/acc_active_email.html', {
-            #     'user': user,
-            #     'domain': current_site.domain,
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token': account_activation_token.make_token(user),
-            # })
-            # to_email = form.cleaned_data.get('email')
-            # email = EmailMessage(
-            #     subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
-            # )
-            # email.send()
+            # to get the domain of the current site
+            current_site = get_current_site(request)
+            mail_subject = 'Activation link has been sent to your email id'
+            message = render_to_string('verification/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
+            )
+            email.send()
             return redirect(reverse('index'))
         else:
+            try:
+                validate_password(request.POST.get('password'))
+            except ValidationError as e:
+                form.add_error('password', e)  # to be displayed with the field's errors
+                return render(request, 'signup.html', {'form': form, 'auth_error': ''})
+
             auth_error = 'Invalid email or password'
             return render(request, 'signup.html', {'form': form, 'auth_error': auth_error})
     else:

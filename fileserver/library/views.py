@@ -2,6 +2,7 @@ import os
 
 import requests
 from django.core.mail import EmailMessage
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, reverse, redirect, get_object_or_404
@@ -24,9 +25,10 @@ def home_page(request, *args, **kwargs):
         if query:
             files = Files.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
         else:
-            files = Files.objects.all()
+
             if len(files) == 0:
                 empty_query = True
+            files = Files.objects.all()
 
     if shared:
         request.session['shared'] = False
@@ -34,8 +36,30 @@ def home_page(request, *args, **kwargs):
     if download:
         request.session['download'] = False
 
+    paginator = Paginator(files, 3)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     return render(request, 'index.html',
-                  {'files': files, 'query': query, 'shared': shared, 'download': download, 'empty_query': empty_query})
+                  {'files': page_obj, 'query': query, 'shared': shared, 'download': download,
+                   'empty_query': empty_query})
+
+
+def sort_files(request, sortby):
+    if request.method == 'GET':
+        if sortby == 'all':
+            files = Files.objects.all()
+            paginator = Paginator(files, 3)
+        else:
+            files = Files.objects.filter(Q(file_type__icontains=sortby))
+            paginator = Paginator(files, 10)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'index.html',
+                      {'files': page_obj, 'query': '', 'shared': False, 'download': False,
+                       'empty_query': False})
 
 
 @login_required()
@@ -115,4 +139,3 @@ def error_404_view(request, exception):
     # we add the path to the 404.html file
     # here. The name of our HTML file is 404.html
     return render(request, '404.html')
-

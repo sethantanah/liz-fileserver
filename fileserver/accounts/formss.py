@@ -23,7 +23,7 @@ class UserForms(forms.Form):
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
+    password_confirm = forms.CharField(widget=forms.PasswordInput, min_length=8)
 
     class Meta:
         model = get_user_model()

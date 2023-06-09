@@ -5,7 +5,7 @@
 {% load filters %}
 
 <div class="container" style="min-width:100%; display:flex; flex-direction:column; justify-content:center">
-    <div style="margin-left:auto; margin-right:auto">
+    <div style="margin-left:auto; margin-right:auto ">
 
 
         {% include 'navigation.html' %}
@@ -62,7 +62,7 @@
                             <div class="flex">
                                 <p class="text-lg font-semibold text-slate-800">{{file.title}}</p>
                             </div>
-                            <p class="font-md text-slate-500">{{file.description|linebreaks}}</p>
+                            <p class="font-md text-slate-500"> {{file.description|slice:":50"}} {% if file.description|length > 50 %}...{% endif %}</p>
                         </a>
 
                         <div style="display:flex; justify-content:end; gap:30px; margin-top:100px">
@@ -138,7 +138,7 @@
         </div>
 
         {%else%}
-        {% if empty_query %}
+
 
              <div class="grid grid-flow-row gap-2 text-neutral-600 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3
       items-center my-4">
@@ -153,10 +153,42 @@
             </div>
         </div>
 
-{% endif %}
         {% endif %}
+
+
+
+        <div class="w-full relative bg-white py-2" style="top:auto">
+       <div class="px-2 flex items-center space-x-4 justify-center">
+                <span class="text-sm text-gray-500">{{ files.number }} of {{ files.paginator.num_pages }}</span>
+                <div class="flex items-center space-x-2">
+                     {% if files.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ files.previous_page_number }}">
+                  <button class="bg-gray-200 text-gray-400 p-1.5 rounded-lg" title="Newer">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+            </a>
+        {% endif %}
+
+                     {% if files.has_next %}
+            <a href="?page={{ files.next_page_number }}"> <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1.5 rounded-lg transition duration-150" title="Older">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+
+
+                </div>
+            </div>
+</div>
     </div>
 </div>
+
+
 
 {% include 'modal.html'%}
 

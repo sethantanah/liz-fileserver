@@ -1,0 +1,111 @@
+<!-- component -->
+<!-- This is an example component -->
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<div class='flex items-center justify-center min-h-full'>
+    <nav class="  space-x-15 md:flex">
+        <div class="relative" x-data="{ open: false }">
+            <button @click="open = ! open" type="button"
+                    class="text-gray-500 group p-4 inline-flex items-center rounded-md bg-gray-500 text-base font-medium hover:text-gray-900"
+                    aria-expanded="false">
+                <span>Sort By</span>
+                <svg :class="{'rotate-180 duration-300': open, 'duration-300' : !open}"
+                     class="text-gray-400 ml-2 h-5 w-5 group-hover:text-gray-500" xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                          clip-rule="evenodd"/>
+                </svg>
+            </button>
+
+            <div
+                    x-show="open"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-90"
+                    class="absolute left-1/2 z-full mt-3 w-screen max-w-md -translate-x-1/2 transform px-2 sm:px-0 z-index:343434343"
+                    style="z-index:99999999999343434343">
+
+                <div class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-index:343434343"
+                     style="z-index:999999999999999999343434343">
+                    <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8 z-index:343434343">
+
+                        <a href="{% url 'sort_files' 'all' %}" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+
+                            <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor"
+                                 class="bi bi-files-alt h-6 w-6 flex-shrink-0 text-template-secondary" viewBox="0 0 16 16">
+                                <path d="M11 0H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2 2 2 0 0 0 2-2V4a2 2 0 0 0-2-2 2 2 0 0 0-2-2zm2 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1V3zM2 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V2z"/>
+                            </svg>
+
+                            <div class="ml-4">
+                                <p class="text-base font-medium text-gray-900">All</p>
+                            </div>
+                        </a>
+                        <a href="{% url 'sort_files' 'video' %}" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="bi bi-film h-6 w-6 flex-shrink-0 text-template-secondary"
+                                 viewBox="0 0 16 16">
+                                <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0v6h8V1H4zm8 8H4v6h8V9zM1 1v2h2V1H1zm2 3H1v2h2V4zM1 7v2h2V7H1zm2 3H1v2h2v-2zm-2 3v2h2v-2H1zM15 1h-2v2h2V1zm-2 3v2h2V4h-2zm2 3h-2v2h2V7zm-2 3v2h2v-2h-2zm2 3h-2v2h2v-2z"/>
+                            </svg>
+
+                            <div class="ml-4">
+                                <p class="text-base font-medium text-gray-900">Videos</p>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'sort_files' 'image' %}" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="bi bi-image h-6 w-6 flex-shrink-0 text-template-secondary"
+                                 viewBox="0 0 16 16">
+                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                            </svg>
+                            <div class="ml-4">
+                                <p class="text-base font-medium text-gray-900">Images</p>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'sort_files' 'audio' %}" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="bi bi-music-note-list h-6 w-6 flex-shrink-0 text-template-secondary"
+                                 viewBox="0 0 16 16">
+                                <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2z"/>
+                                <path fill-rule="evenodd" d="M12 3v10h-1V3h1z"/>
+                                <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1V2.82z"/>
+                                <path fill-rule="evenodd"
+                                      d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+
+                            <div class="ml-4">
+                                <p class="text-base font-medium text-gray-900">Audio</p>
+                            </div>
+                        </a>
+
+                        <a href="{% url 'sort_files' 'pdf' %}" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
+
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="bi bi-filetype-pdf h-6 w-6 flex-shrink-0 text-template-secondary"
+                                 viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
+                            </svg>
+
+                            <div class="ml-4">
+                                <p class="text-base font-medium text-gray-900">Pdfs</p>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
