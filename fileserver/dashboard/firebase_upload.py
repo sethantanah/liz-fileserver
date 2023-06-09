@@ -16,7 +16,15 @@ def uploadfile(file):
     blob = bucket.blob(fileName)
     blob.upload_from_filename(fileName)
     blob.make_public()
+    fs = FileSystemStorage()
+    fs.delete(file.name)
     return blob.public_url
+
+
+def delete_firebase_file(file):
+    storage.bucket()
+    blob = storage.bucket()
+    blob.delete_blob(f'/opt/render/project/src/fileserver/songdir/{file}')
 
 
 def file_path(file):

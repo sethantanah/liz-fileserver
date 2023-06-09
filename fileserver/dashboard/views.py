@@ -11,7 +11,9 @@ from library.models import FileTracker
 from library.models import Files
 from accounts.models import User
 
-from dashboard.firebase_upload import uploadfile
+from dashboard.firebase_upload import uploadfile, delete_firebase_file
+
+
 
 
 @permission_required('user.can_add_files', raise_exception=True)
@@ -91,5 +93,6 @@ def delete_file(request, pk):
 @permission_required('user_can_delete_file', raise_exception=True)
 def confirm_delete_file(request, pk):
     file = get_object_or_404(Files, pk=pk)
+    delete_firebase_file(file.file_url)
     file.delete()
     return redirect(reverse('dashboard'))
