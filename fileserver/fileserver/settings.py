@@ -31,6 +31,7 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = ["127.0.0.1", "17f6-154-160-21-175.ngrok-free.app", 'liz-fileserver-production.up.railway.app', 'lizz.onrender.com']
 
 INTERNAL_IPS = [
+"127.0.0.1",
     'lizz.onrender.com',
     'liz-fileserver-production.up.railway.app'
     "17f6-154-160-21-175.ngrok-free.app",
@@ -63,10 +64,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'tailwind',
+     'theme',
     'accounts',
     'library',
-    'dashboard',
-    'theme'
+    'dashboard'
+
 ]
 
 MIDDLEWARE = [
