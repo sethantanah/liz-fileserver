@@ -40,22 +40,23 @@ def sign_up(request):
             # save form in the memory not in database
             user = form.save(commit=False)
 
-            user.is_active = False
+            user.is_active = True
             user.save()
-            # to get the domain of the current site
-            current_site = get_current_site(request)
-            mail_subject = 'Activation link has been sent to your email id'
-            message = render_to_string('verification/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
-            )
-            email.send()
+            # # to get the domain of the current site
+            # current_site = get_current_site(request)
+            # mail_subject = 'Activation link has been sent to your email id'
+            # message = render_to_string('verification/acc_active_email.html', {
+            #     'user': user,
+            #     'domain': current_site.domain,
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': account_activation_token.make_token(user),
+            # })
+            # to_email = form.cleaned_data.get('email')
+            # email = EmailMessage(
+            #     subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
+            # )
+            #email.send()
+            return render(request, 'verification/email_verification.html')
             return redirect(reverse('index'))
         else:
             try:

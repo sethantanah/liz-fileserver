@@ -93,6 +93,7 @@ def delete_file(request, pk):
 @permission_required('user_can_delete_file', raise_exception=True)
 def confirm_delete_file(request, pk):
     file = get_object_or_404(Files, pk=pk)
-    delete_firebase_file(file.file_url)
+    name = file.file_url.split('/')[-1].replace('%20', ' ')
+    delete_firebase_file(name)
     file.delete()
     return redirect(reverse('dashboard'))

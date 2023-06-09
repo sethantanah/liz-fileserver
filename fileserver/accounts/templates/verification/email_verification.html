@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %} Email Verification {% endblock %}
+
+{% block content %}
+<div class="h-screen font-sans login bg-cover">
+<div class="container mx-auto h-full flex justify-center items-center flex-col">
+         <h2 class="block font-bold">Email Verification</h2>
+	<br>
+	<p>Please check your inbox and follow the link to verify your email.</p>
+
+
+    <a href="{% url 'index' %}">
+          <button
+        type="button"
+        class="border border-gray-200 bg-gray-200 text-gray-700 mt-10 rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-gray-300 focus:outline-none focus:shadow-outline"
+      >
+       Explore Files
+      </button>
+    </a>
+      </div>
+    </div>
+{% endblock %}
