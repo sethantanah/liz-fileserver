@@ -1,3 +1,5 @@
+import os
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
@@ -18,6 +20,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
+
+from .models import User
 
 
 @login_required()
@@ -40,22 +44,22 @@ def sign_up(request):
             # save form in the memory not in database
             user = form.save(commit=False)
 
-            user.is_active = True
+            user.is_active = False
             user.save()
-            # # to get the domain of the current site
-            # current_site = get_current_site(request)
-            # mail_subject = 'Activation link has been sent to your email id'
-            # message = render_to_string('verification/acc_active_email.html', {
-            #     'user': user,
-            #     'domain': current_site.domain,
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token': account_activation_token.make_token(user),
-            # })
-            # to_email = form.cleaned_data.get('email')
-            # email = EmailMessage(
-            #     subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
-            # )
-            #email.send()
+            # to get the domain of the current site
+            current_site = get_current_site(request)
+            mail_subject = 'Activation link has been sent to your email id'
+            message = render_to_string('verification/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            to_email = form.cleaned_data.get('email')
+            email = EmailMessage(
+                subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
+            )
+            email.send()
             return render(request, 'verification/email_verification.html')
             return redirect(reverse('index'))
         else:
@@ -66,6 +70,9 @@ def sign_up(request):
                 return render(request, 'signup.html', {'form': form, 'auth_error': ''})
 
             auth_error = 'Invalid email or password'
+            if not User.objects.filter(email=os.environ.get('ADMIN_EMAIL')).exists():
+                auth_error = 'Email not registered, Signup instead.'
+
             return render(request, 'signup.html', {'form': form, 'auth_error': auth_error})
     else:
         form = RegistrationForm()
