@@ -114,7 +114,7 @@ def send_email_with_attachment(request, pk):
     filename = f'{file.title}.{file_type}'
     my_mail = request.user.email
     email = EmailMessage(
-        subject='Lizz-fileserver',
+        subject=f'Lizz-fileserver - {file.title}',
         body='Please find the attached file',
         from_email='sethsyd32@gmail.com',
         to=[my_mail],

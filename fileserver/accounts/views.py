@@ -2,6 +2,7 @@ import os
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.db.models import Q
@@ -13,13 +14,14 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate, get_user_model, logout
+from django.contrib.auth import hashers, login, authenticate, get_user_model, logout
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
+
 
 from .models import User
 
@@ -43,8 +45,8 @@ def sign_up(request):
         if form.is_valid():
             # save form in the memory not in database
             user = form.save(commit=False)
-
             user.is_active = False
+            user.set_password(form.clean_password())
             user.save()
             # to get the domain of the current site
             current_site = get_current_site(request)
@@ -99,6 +101,16 @@ def activate(request, uidb64, token):
         return render(request, 'verification/activate_account.html', {'message': 'Activation link is invalid!'})
 
 
+def authenticate_user(email, password):
+    try:
+        user = User.objects.get(email=email)
+        if user.check_password(password):
+            return user
+
+    except User.DoesNotExist:
+        return None
+
+
 def sign_in(request):
     form = UserForms()
     if request.method == 'GET':
@@ -106,6 +118,7 @@ def sign_in(request):
 
     if request.method == 'POST':
         form = UserForms(request.POST)
+
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
