@@ -61,7 +61,7 @@ def sign_up(request):
             email = EmailMessage(
                 subject=mail_subject, body='', from_email='sethsyd32@gmail.com', to=[to_email]
             )
-            email.attach_alternative(message, "text/html")
+            email.attach(message, "text/html")
             email.send()
             return render(request, 'verification/email_verification.html')
             return redirect(reverse('index'))
