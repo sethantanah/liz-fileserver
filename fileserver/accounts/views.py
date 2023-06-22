@@ -1,5 +1,6 @@
 import os
 
+from django import template
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
@@ -51,7 +52,7 @@ def sign_up(request):
             # to get the domain of the current site
             current_site = get_current_site(request)
             mail_subject = 'Activation link has been sent to your email id'
-            message = render_to_string('verification/acc_active_email.html', {
+            message = template.loader.get_template('verification/acc_active_email.html', {
                 'user': user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
