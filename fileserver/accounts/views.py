@@ -52,12 +52,14 @@ def sign_up(request):
             # to get the domain of the current site
             current_site = get_current_site(request)
             mail_subject = 'Activation link has been sent to your email id'
-            message = template.loader.get_template('verification/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
+            message = template.loader.get_template('verification/acc_active_email.html').render(
+                {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': account_activation_token.make_token(user),
+                }
+            )
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
                 subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
@@ -115,7 +117,7 @@ def authenticate_user(email, password):
 def sign_in(request):
     form = UserForms()
     if request.method == 'GET':
-        return render(request, 'login.html', {'form': form})
+        return render(request, 'password-reset/password_reset_confirm.html', {'form': form})
 
     if request.method == 'POST':
         form = UserForms(request.POST)
