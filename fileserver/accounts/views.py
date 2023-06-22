@@ -117,7 +117,7 @@ def authenticate_user(email, password):
 def sign_in(request):
     form = UserForms()
     if request.method == 'GET':
-        return render(request, 'password-reset/password_reset_confirm.html', {'form': form})
+        return render(request, 'login.html', {'form': form})
 
     if request.method == 'POST':
         form = UserForms(request.POST)
