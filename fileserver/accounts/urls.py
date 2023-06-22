@@ -16,7 +16,7 @@ urlpatterns = [
     path('/sign-up/', sign_up, name='sign_up'),
     path('/logout/', LogoutView.as_view(next_page='sign_in'), name='logout'),
     path('/confirm-email/', confirm_email, name='confirm_main'),
-    path('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+    path('/activate/<uidb64>/<token>/',
          activate, name='activate'),
     path('/profile/', profile, name='profile')
 ]
