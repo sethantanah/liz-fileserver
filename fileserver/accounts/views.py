@@ -1,6 +1,5 @@
 import os
 
-from django import template
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
@@ -52,18 +51,17 @@ def sign_up(request):
             # to get the domain of the current site
             current_site = get_current_site(request)
             mail_subject = 'Activation link has been sent to your email id'
-            message = template.loader.get_template('verification/acc_active_email.html').render(
-                {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': account_activation_token.make_token(user),
-                }
-            )
+            message = render_to_string('verification/acc_active_email.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(
-                subject=mail_subject, body=message, from_email='sethsyd32@gmail.com', to=[to_email]
+                subject=mail_subject, body='', from_email='sethsyd32@gmail.com', to=[to_email]
             )
+            email.attach_alternative(message, "text/html")
             email.send()
             return render(request, 'verification/email_verification.html')
             return redirect(reverse('index'))
