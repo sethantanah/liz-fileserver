@@ -20,7 +20,10 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.utils.html import strip_tags
+
+
 
 
 from .models import User
@@ -57,12 +60,18 @@ def sign_up(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
+
+            text_content = strip_tags(message)
             to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                subject=mail_subject, body='', from_email='sethsyd32@gmail.com', to=[to_email]
+            from_email = os.environ.get('DEFAULT_FROM_EMAIL')
+
+            email = EmailMultiAlternatives(
+                subject=mail_subject, body=text_content, from_email=from_email, to=[to_email]
             )
-            email.attach(message, "text/html")
+
+            email.attach_alternative(message, 'text/html')
             email.send()
+
             return render(request, 'verification/email_verification.html')
             return redirect(reverse('index'))
         else:
