@@ -111,10 +111,10 @@ def send_mail(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         pk = request.POST.get('pk')
-        print(email, pk)
-
+       
         if email and pk:
             send_email_with_attachment(request, pk, email)
+            return redirect(reverse('index'))
         else:
             return redirect(reverse('index'))
 
@@ -146,7 +146,7 @@ def send_email_with_attachment(request, pk, email):
     finally:
         pass
     request.session['shared'] = True
-    return redirect(reverse('index'))
+    #return redirect(reverse('index'))
 
 
 def error_404_view(request, exception):
