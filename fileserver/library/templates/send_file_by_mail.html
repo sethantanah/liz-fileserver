@@ -1,0 +1,122 @@
+<div class="main-send-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster hidden"
+     style="background: rgba(0,0,0,.5);">
+    <div
+            class="  transparent w-11/12 md:max-w-md mx-auto rounded  z-50 overflow-y-auto">
+        <div class="modal-content py-4 text-left px-6">
+            <!--Title-->
+            <!-- component -->
+            <div class="min-h-screen bg-transparent	flex justify-center items-center">
+
+                <div class="py-12 px-12 bg-white rounded-2xl shadow-xl z-20">
+                    <div>
+                        <h1 class="text-3xl font-bold text-center mb-4 cursor-pointer">Send By Mail</h1>
+                        <p class="w-80 text-center text-sm mb-8 font-semibold text-gray-700 tracking-wide cursor-pointer">
+                            Enter Recipients email </p>
+                    </div>
+                    <form action="{% url 'send-mail' %}" id='form' method="POST">
+                        {% csrf_token %}
+                        <div class="space-y-4">
+                            <input class="block text-sm py-3 px-4 rounded-lg w-full border outline-none" id="email" name="email"
+                                   placeholder="Email"
+                                   required
+                                   type="email"/>
+
+                            <input class="hidden text-sm py-3 px-4 rounded-lg w-full border outline-none" id="pk"
+                                   name="pk"
+                                   placeholder="Email"
+                                   type="text"  onKeyPress='emailChanged()'/>
+                        </div>
+                        <div class="text-center mt-6">
+                            <button disabled  class="py-3 w-64 text-xl text-white bg-purple-400 rounded-2xl open-btn" id="send">
+                                Send
+                            </button>
+                            <p class="mt-4 text-sm cursor-pointer underline open-btn"
+                               onclick="sendSelf('{{request.user.email}}')"> Send to self
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% include 'modal.html'%}
+
+
+
+<script>
+	    const openSendBtn2 = document.querySelectorAll('.send-mail');
+		const modal2 = document.querySelector('.main-send-modal');
+		const closeButton2 = document.querySelectorAll('.modal-close');
+		const email = document.getElementById('email');
+		const pk = document.getElementById('pk');
+	    const sendBtn = document.getElementById('send');
+
+		const modalClose2 = () => {
+			modal2.classList.remove('fadeIn');
+			modal2.classList.add('fadeOut');
+			setTimeout(() => {
+				modal2.style.display = 'none';
+			}, 500);
+
+			if(timer){
+			 clearInterval(timer)
+			}
+		}
+
+		openSendBtn2.forEach(btn =>{
+		  btn.addEventListener('click', () => {
+            modal2.classList.remove('hidden');
+			modal2.classList.remove('fadeOut');
+			modal2.classList.add('fadeIn');
+			modal2.style.display = 'flex';
+		})
+		})
+
+
+
+
+for (let i = 0; i < closeButton2.length; i++) {
+
+			const elements = closeButton2[i];
+
+			elements.onclick = (e) => modalClose2();
+
+			modal2.style.display = 'none';
+
+			window.onclick = function (event) {
+				if (event.target == modal2) modalClose2();
+			}
+		}
+
+
+let timer = null;
+
+email.addEventListener('click', ()=>{
+timer = setInterval(()=>{
+  const  re = /\S+@\S+\.\S+/;
+   if(email.value === '' && !re.test(email.value)){
+ sendBtn.disabled = true;
+}else{
+ sendBtn.disabled = false;
+}
+}, 100)
+
+  pk.value = window.localStorage.getItem('pk')
+})
+
+sendSelf = function(mail){
+modalClose2()
+const form = document.getElementById('form')
+pk.value = window.localStorage.getItem('pk')
+email.value=mail;
+form.submit()
+}
+
+
+</script>

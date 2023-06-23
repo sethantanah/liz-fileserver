@@ -107,12 +107,24 @@ def download_file(request, pk):
 
 
 @login_required()
-def send_email_with_attachment(request, pk):
+def send_mail(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        pk = request.POST.get('pk')
+        print(email, pk)
+
+        if email and pk:
+            send_email_with_attachment(request, pk, email)
+        else:
+            return redirect(reverse('index'))
+
+
+def send_email_with_attachment(request, pk, email):
     file = get_object_or_404(Files, pk=pk)
     content_type = file.file_type
     file_type = content_type.split('/')[-1]
     filename = f'{file.title}.{file_type}'
-    my_mail = request.user.email
+    my_mail = email
     email = EmailMessage(
         subject=f'Lizz-fileserver - {file.title}',
         body='Please find the attached file',

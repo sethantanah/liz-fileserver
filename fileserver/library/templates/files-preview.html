@@ -29,8 +29,8 @@
 
                         </a>
 
-                        <a title="Send by Mail" href="{{ file.get_email_url }}" style="text-align:center"
-                           class=" open-btn sendmail text-center w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                        <a title="Send by Mail" onclick="getPk('{{file.id}}')" style="text-align:center"
+                           class=" send-mail sendmail text-center w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
 
                             <svg xmlns="http://www.w3.org/2000/svg" style="width:20px; height:20px"
                                  fill="currentColor" class="bi bi-envelope-paper" viewBox="0 0 16 16">
@@ -98,9 +98,14 @@
     </div>
 </div>
 
-{% include 'modal.html'%}
+{% include 'send_file_by_mail.html'%}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
 
+<script>
+   getPk = function(pk){
+      window.localStorage.setItem("pk", pk)
+   }
+</script>
 {% endblock %}

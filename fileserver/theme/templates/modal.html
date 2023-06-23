@@ -34,7 +34,7 @@
 	</div>
 
 	<script>
-	    const openBtn = document.querySelector('.open-btn');
+	    const openBtn = document.querySelectorAll('.open-btn');
 		const modal = document.querySelector('.main-modal');
 		const closeButton = document.querySelectorAll('.modal-close');
 
@@ -46,12 +46,15 @@
 			}, 500);
 		}
 
-        openBtn.addEventListener('click', () => {
+        openBtn.forEach(btn => {
+        btn.addEventListener('click', () => {
             modal.classList.remove('hidden');
 			modal.classList.remove('fadeOut');
 			modal.classList.add('fadeIn');
 			modal.style.display = 'flex';
 		})
+
+        })
 
 
 for (let i = 0; i < closeButton.length; i++) {

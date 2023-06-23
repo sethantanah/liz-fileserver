@@ -4,7 +4,6 @@ import os
 from django.conf import settings
 
 
-
 def upload_to(instance, filename):
     if instance.file_type == 'audio':
         return os.path.join('media/', filename)
@@ -33,6 +32,9 @@ class Files(models.Model):
         return reverse('download', args=[str(self.id)])
 
     def get_email_url(self):
+        return reverse('email', args=[str(self.id)])
+
+    def select_file_url(self):
         return reverse('email', args=[str(self.id)])
 
     def get_update_url(self):

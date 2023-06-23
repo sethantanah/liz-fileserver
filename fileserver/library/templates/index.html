@@ -119,8 +119,8 @@
 
                             </a>
 
-                            <a title="Send by Mail" href="{{ file.get_email_url }}"
-                               class=" open-btn sendmail w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                            <a title="Send by Mail" onclick="getPk('{{file.id}}')"
+                               class=" send-mail sendmail w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" style="width:30px; height:30px"
                                      fill="currentColor" class="bi bi-envelope-paper" viewBox="0 0 16 16">
@@ -190,10 +190,19 @@
 
 
 
-{% include 'modal.html'%}
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
         integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+
+{% include 'send_file_by_mail.html'%}
+
+
+
+<script>
+   getPk = function(pk){
+      window.localStorage.setItem("pk", pk)
+   }
+</script>
 
 <script>
     tailwind.config = {
